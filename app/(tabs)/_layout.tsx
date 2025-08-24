@@ -28,7 +28,6 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Mes recettes 🍲",
-
           tabBarIcon: ({ color }) => (
             <FontAwesome6 size={24} name="bowl-food" color={color} />
           ),

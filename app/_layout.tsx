@@ -9,6 +9,7 @@ import {
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -38,21 +39,37 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: { backgroundColor: colors.tabBarBackground },
-      }}
-    >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="add-recipe/index"
-        options={{
-          title: "Nouvelle recette",
-          presentation: "modal",
-          headerBackTitle: "Recettes",
-          headerTintColor: colors.accent,
+    <GestureHandlerRootView>
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: colors.tabBarBackground },
         }}
-      />
-    </Stack>
+      >
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="add-recipe/index"
+          options={{
+            headerTitle: "Nouvelle recette",
+            presentation: "modal",
+            headerShown: true,
+            headerBackTitle: "Recettes",
+            headerTintColor: colors.accent,
+            headerLargeTitle: true,
+          }}
+        />
+        <Stack.Screen
+          name="recipe/[id]"
+          options={{
+            presentation: "card",
+            headerShown: true,
+            headerTransparent: true,
+            headerBackButtonDisplayMode: "minimal",
+            headerStyle: {
+              backgroundColor: "transparent",
+            },
+          }}
+        />
+      </Stack>
+    </GestureHandlerRootView>
   );
 }

@@ -1,53 +1,43 @@
 import FloatingButton from "@/components/FloatingButton";
+import RecipeList from "@/components/recipe/RecipeList";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
+import { Recipe } from "@/types/Recipe";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 
 export default function Recipes() {
   const router = useRouter();
   const colors = useThemeColors();
-  const { recipes, removeRecipe } = useRecipeStore();
-  // const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const { recipes } = useRecipeStore();
 
-  // const loadRecipes = async () => {
-  //   const all = await RecipesDb.getAll();
-  //   setRecipes(all);
-  // };
+  const [search, setSearch] = useState("");
+  const [filteredItems, setFilteredItems] = useState<Recipe[]>(recipes);
 
-  // useEffect(() => {
-  //   loadRecipes();
-  // }, []);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (search.trim() === "") {
+        setFilteredItems(recipes);
+      } else {
+        setFilteredItems(
+          recipes.filter((item) =>
+            item.name.toLowerCase().includes(search.toLowerCase())
+          )
+        );
+      }
+    }, 300); // délai 300ms
 
-  const handleDelete = async (id: number) => {
-    await removeRecipe(id);
-  };
+    return () => clearTimeout(timeout);
+  }, [search, recipes]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>
-        Mes Recettes 🍲
-      </Text>
-      <FlatList
-        data={recipes}
-        numColumns={2}
-        contentContainerStyle={styles.list}
-        keyExtractor={(item) => item.id!.toString()}
-        renderItem={({ item }) => (
-          <View style={{ marginBottom: 10 }}>
-            {item.photoUri && (
-              <Image
-                source={{ uri: item.photoUri }}
-                style={{ width: 200, height: 200, borderRadius: 8 }}
-              />
-            )}
-            <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
-            <Text>{item.category}</Text>
-            <Text>{item.tags.join(", ")}</Text>
-            <Button title="Supprimer" onPress={() => handleDelete(item.id!)} />
-          </View>
-        )}
+      <RecipeList
+        recipes={filteredItems}
+        search={search}
+        setSearch={setSearch}
       />
       <FloatingButton
         icon={<AntDesign name="plus" size={28} color="#fff" />}
@@ -60,15 +50,11 @@ export default function Recipes() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
+    padding: 12,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: "600",
-  },
-  list: {
-    width: "100%",
-    justifyContent: "space-between",
+  search: {
+    marginBottom: 30,
   },
 });

@@ -6,13 +6,23 @@ import {
   TextInput,
   TextInputProps,
   View,
+  ViewStyle,
 } from "react-native";
 
 type Props = {
   label?: string;
+  icon?: React.ReactNode;
+  wrapperStyle?: ViewStyle;
 } & TextInputProps;
 
-export default function Input({ label, value, onChange, ...rest }: Props) {
+export default function Input({
+  label,
+  value,
+  onChange,
+  icon,
+  wrapperStyle,
+  ...rest
+}: Props) {
   const colors = useThemeColors();
   const [isFocused, setIsFocused] = useState(false);
 
@@ -49,6 +59,7 @@ export default function Input({ label, value, onChange, ...rest }: Props) {
     <View
       style={[
         styles.container,
+        wrapperStyle,
         { borderColor: isFocused ? colors.primary : colors.border },
       ]}
     >
@@ -56,18 +67,18 @@ export default function Input({ label, value, onChange, ...rest }: Props) {
       <TextInput
         {...rest}
         value={value}
-        style={styles.input}
+        style={[styles.input, { color: colors.text }]}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         autoCapitalize="sentences"
       />
+      <View style={styles.icon}>{icon}</View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     borderWidth: 1,
     borderRadius: 10,
     marginVertical: 10,
@@ -76,5 +87,11 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 14, // centré verticalement
     fontSize: 16,
+    maxWidth: "90%",
+  },
+  icon: {
+    position: "absolute",
+    right: 15,
+    top: 14,
   },
 });

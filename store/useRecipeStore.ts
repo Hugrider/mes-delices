@@ -7,6 +7,7 @@ type RecipeStore = {
   loadRecipes: () => Promise<void>;
   addRecipe: (recipe: Recipe) => Promise<void>;
   removeRecipe: (id: number) => Promise<void>;
+  getRecipeById: (id: number) => Promise<Recipe | null>;
 };
 
 const useRecipeStore = create<RecipeStore>((set) => ({
@@ -22,6 +23,9 @@ const useRecipeStore = create<RecipeStore>((set) => ({
   removeRecipe: async (id: number) => {
     await RecipesDb.remove(id);
     set((state) => ({ recipes: state.recipes.filter((r) => r.id !== id) }));
+  },
+  getRecipeById: async (id: number) => {
+    return await RecipesDb.getById(id);
   },
 }));
 

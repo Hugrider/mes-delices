@@ -47,7 +47,7 @@ async function getAll(): Promise<Recipe[]> {
 
   const rows = await db.getAllAsync<
     Recipe & { tags: string; ingredients: string }
-  >("SELECT * FROM recipes");
+  >("SELECT * FROM recipes ORDER BY name ASC");
 
   return rows.map((r) => ({
     ...r,

@@ -60,6 +60,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="recipe/[id]"
           options={{
+            headerTitle: "",
             presentation: "card",
             headerShown: true,
             headerTransparent: true,

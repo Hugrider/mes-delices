@@ -28,3 +28,14 @@ export function useThemeColors() {
   const scheme = useColorScheme();
   return scheme === "dark" ? DarkColors : LightColors;
 }
+
+export const ShadowProperties = {
+  shadowColor: "#9c9c9c",
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.3,
+  shadowRadius: 2,
+  elevation: 3,
+};

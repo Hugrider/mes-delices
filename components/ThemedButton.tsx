@@ -1,4 +1,4 @@
-import { useThemeColors } from "@/constants/Theme";
+import { ShadowProperties, useThemeColors } from "@/constants/Theme";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
@@ -25,6 +25,7 @@ export default function ThemedButton({ text, type, loading, onPress }: Props) {
     <Pressable
       style={({ pressed }) => [
         { backgroundColor: getBackgroundColor(), opacity: pressed ? 0.5 : 1 },
+        ShadowProperties,
         styles.button,
       ]}
       onPress={onPress}
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 10,
-    marginBottom: 10,
+    margin: 10,
   },
   text: {
     textAlign: "center",

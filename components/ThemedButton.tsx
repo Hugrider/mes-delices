@@ -5,9 +5,10 @@ import { Pressable, StyleSheet, Text } from "react-native";
 type Props = {
   text: string;
   type?: "primary" | "default" | "delete";
+  loading?: boolean;
   onPress: () => void;
 };
-export default function ThemedButton({ text, type, onPress }: Props) {
+export default function ThemedButton({ text, type, loading, onPress }: Props) {
   const colors = useThemeColors();
 
   function getBackgroundColor() {
@@ -27,8 +28,11 @@ export default function ThemedButton({ text, type, onPress }: Props) {
         styles.button,
       ]}
       onPress={onPress}
+      disabled={loading}
     >
-      <Text style={[styles.text, { color: getTexteColor() }]}>{text}</Text>
+      <Text style={[styles.text, { color: getTexteColor() }]}>
+        {loading ? "Chargement..." : text}
+      </Text>
     </Pressable>
   );
 }

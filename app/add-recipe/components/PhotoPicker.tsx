@@ -1,6 +1,7 @@
+import ThemedButton from "@/components/ThemedButton";
 import { Camera } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import { Alert, Button, Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, View } from "react-native";
 
 type Props = {
   photoUri: string | null;
@@ -34,14 +35,15 @@ export default function PhotoPicker({ photoUri, onChange }: Props) {
   return (
     <View style={styles.container}>
       {photoUri && <Image source={{ uri: photoUri }} style={styles.image} />}
-      <Button title="Prendre une photo" onPress={takePhoto} />
-      <Button title="Choisir depuis la galerie" onPress={pickImage} />
+      <ThemedButton text="Prendre une photo" onPress={takePhoto} />
+      <ThemedButton text="Choisir depuis la galerie" onPress={pickImage} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     gap: 8,
     alignItems: "center",
   },

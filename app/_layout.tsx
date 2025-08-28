@@ -54,7 +54,7 @@ export default function RootLayout() {
             headerShown: true,
             headerBackTitle: "Recettes",
             headerTintColor: colors.accent,
-            headerLargeTitle: true,
+            // headerLargeTitle: true,
           }}
         />
         <Stack.Screen

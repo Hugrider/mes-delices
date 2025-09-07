@@ -3,7 +3,7 @@ import React from "react";
 import { StyleProp, Text, TextProps, TextStyle } from "react-native";
 
 type Props = {
-  text: string;
+  text: string | number;
   style?: StyleProp<TextStyle>;
 } & Omit<TextProps, "style" | "children">;
 

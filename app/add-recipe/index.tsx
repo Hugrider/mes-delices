@@ -1,4 +1,4 @@
-import { useThemeColors } from "@/constants/Theme";
+import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import { StyleSheet, View } from "react-native";
 import NewRecipeForm from "./components/NewRecipeForm";
 
@@ -13,5 +13,5 @@ export default function AddRecipeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: { flex: 1, padding: PaddingContainer },
 });

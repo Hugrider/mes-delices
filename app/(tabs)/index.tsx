@@ -1,6 +1,6 @@
 import FloatingButton from "@/components/FloatingButton";
 import RecipeList from "@/components/recipe/RecipeList";
-import { useThemeColors } from "@/constants/Theme";
+import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
 import { Recipe } from "@/types/Recipe";
 import { AntDesign } from "@expo/vector-icons";
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     // alignItems: "center",
-    padding: 12,
+    padding: PaddingContainer,
   },
   search: {
     marginBottom: 30,

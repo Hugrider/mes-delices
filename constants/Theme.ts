@@ -39,3 +39,5 @@ export const ShadowProperties = {
   shadowRadius: 2,
   elevation: 3,
 };
+
+export const PaddingContainer = 12;

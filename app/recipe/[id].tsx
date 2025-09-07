@@ -1,5 +1,5 @@
 import { ConfirmPopupHandler } from "@/components/ConfirmPopupHandler";
-import ThemedButton from "@/components/ThemedButton";
+import HeaderRecipeOptions from "@/components/recipe/HeaderRecipeOptions";
 import ThemedText from "@/components/ThemedText";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
@@ -25,7 +25,15 @@ export default function RecipeDetail() {
       const result = await getRecipeById(Number(id));
       if (result) {
         setRecipe(result);
-        // navigation.setOptions({ title: result.name });
+        navigation.setOptions({
+          headerRight: () => (
+            <HeaderRecipeOptions
+              onDelete={(id) => requestDelete(id)}
+              onEdit={(id) => alert("edition de " + id)}
+              recipeId={Number(id)}
+            />
+          ),
+        });
       }
     })();
   }, [id, getRecipeById, navigation]);
@@ -64,6 +72,7 @@ export default function RecipeDetail() {
             text={recipe.name}
             style={[styles.title, { color: colors.accent }]}
           />
+          <ThemedText text={recipe.grade ?? 0} />
           <ThemedText
             text={getCategoryLabel(recipe.category)}
             style={[styles.category, { color: colors.inactive }]}
@@ -82,13 +91,6 @@ export default function RecipeDetail() {
             ))}
           </View>
           <ThemedText text={recipe.description} style={styles.description} />
-          <View style={styles.buttonsContainer}>
-            <ThemedButton
-              text="Supprimer"
-              type="delete"
-              onPress={() => requestDelete(recipe.id)}
-            />
-          </View>
         </View>
       </ScrollView>
     </View>
@@ -127,9 +129,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   description: {
-    marginTop: 30,
-  },
-  buttonsContainer: {
     marginTop: 30,
   },
 });

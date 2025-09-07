@@ -1,11 +1,11 @@
 import { RecipesDb } from "@/services/recipesDb";
-import { Recipe } from "@/types/Recipe";
+import { Recipe, RecipeForm } from "@/types/Recipe";
 import { create } from "zustand";
 
 type RecipeStore = {
   recipes: Recipe[];
   loadRecipes: () => Promise<void>;
-  addRecipe: (recipe: Recipe) => Promise<void>;
+  addRecipe: (recipe: RecipeForm) => Promise<void>;
   removeRecipe: (id: number) => Promise<void>;
   getRecipeById: (id: number) => Promise<Recipe | null>;
 };
@@ -16,7 +16,7 @@ const useRecipeStore = create<RecipeStore>((set) => ({
     const results = await RecipesDb.getAll();
     set({ recipes: results });
   },
-  addRecipe: async (recipe: Recipe) => {
+  addRecipe: async (recipe: RecipeForm) => {
     await RecipesDb.add(recipe);
     await useRecipeStore.getState().loadRecipes();
   },

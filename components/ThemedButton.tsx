@@ -6,9 +6,16 @@ type Props = {
   text: string;
   type?: "primary" | "default" | "delete";
   loading?: boolean;
+  disable?: boolean;
   onPress: () => void;
 };
-export default function ThemedButton({ text, type, loading, onPress }: Props) {
+export default function ThemedButton({
+  text,
+  type,
+  loading,
+  disable,
+  onPress,
+}: Props) {
   const colors = useThemeColors();
 
   function getBackgroundColor() {
@@ -24,12 +31,15 @@ export default function ThemedButton({ text, type, loading, onPress }: Props) {
   return (
     <Pressable
       style={({ pressed }) => [
-        { backgroundColor: getBackgroundColor(), opacity: pressed ? 0.5 : 1 },
+        {
+          backgroundColor: getBackgroundColor(),
+          opacity: pressed || disable ? 0.5 : 1,
+        },
         ShadowProperties,
         styles.button,
       ]}
       onPress={onPress}
-      disabled={loading}
+      disabled={loading || disable}
     >
       <Text style={[styles.text, { color: getTexteColor() }]}>
         {loading ? "Chargement..." : text}

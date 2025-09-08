@@ -6,6 +6,7 @@ type TagStore = {
   tags: Tag[];
   loadTags: () => Promise<void>;
   addTag: (tagName: string) => Promise<void>;
+  updateTag: (tag: Tag) => Promise<void>;
   removeTag: (id: number) => Promise<void>;
 };
 
@@ -17,6 +18,10 @@ const useTagStore = create<TagStore>((set) => ({
   },
   addTag: async (tagName: string) => {
     await TagsDb.add(tagName);
+    await useTagStore.getState().loadTags();
+  },
+  updateTag: async (tag: Tag) => {
+    await TagsDb.update(tag);
     await useTagStore.getState().loadTags();
   },
   removeTag: async (id: number) => {

@@ -80,6 +80,19 @@ export default function RootLayout() {
             ),
           }}
         />
+        <Stack.Screen
+          name="tags/index"
+          options={{
+            headerTitle: "Tags",
+            headerTitleStyle: {
+              color: colors.text,
+            },
+            presentation: "card",
+            headerShown: true,
+            headerBackButtonDisplayMode: "minimal",
+            headerLargeTitle: true,
+          }}
+        />
       </Stack>
     </GestureHandlerRootView>
   );

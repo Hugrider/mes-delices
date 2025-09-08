@@ -17,6 +17,24 @@ async function add(tagName: string): Promise<number | null> {
   }
 }
 
+async function update(tag: Tag): Promise<number | null> {
+  const db = await getDb();
+  try {
+    const result = await db.runAsync(
+      `UPDATE tags
+       SET name = ?
+       WHERE id = ?`,
+      tag.name,
+      tag.id
+    );
+
+    return result.changes > 0 ? tag.id : null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 async function getAll(): Promise<Tag[]> {
   const db = await getDb();
 
@@ -35,4 +53,4 @@ async function remove(id: number): Promise<void> {
   await db.runAsync("DELETE FROM tags WHERE id = ?", id);
 }
 
-export const TagsDb = { add, getAll, remove };
+export const TagsDb = { add, update, getAll, remove };

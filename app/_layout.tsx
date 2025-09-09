@@ -2,6 +2,7 @@ import IconButton from "@/components/IconButton";
 import { initDb } from "@/config/db";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
+import useTagStore from "@/store/useTagStore";
 import {
   Inter_400Regular,
   Inter_600SemiBold,
@@ -22,11 +23,14 @@ export default function RootLayout() {
   });
 
   const colors = useThemeColors();
+  const { loadRecipes } = useRecipeStore();
+  const { loadTags } = useTagStore();
 
   useEffect(() => {
     (async () => {
       await initDb();
-      await useRecipeStore.getState().loadRecipes();
+      await loadRecipes();
+      await loadTags();
     })();
   }, []);
 

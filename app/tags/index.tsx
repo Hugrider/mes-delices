@@ -14,7 +14,7 @@ import RenameTag from "./components/RenameTag";
 
 export default function Tags() {
   const colors = useThemeColors();
-  const { tags, loadTags, removeTag } = useTagStore();
+  const { tags, removeTag } = useTagStore();
   const navigation = useNavigation();
 
   const [isRenaming, setIsRenaming] = useState(false);
@@ -23,12 +23,6 @@ export default function Tags() {
 
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      await loadTags();
-    })();
-  }, []);
 
   useEffect(() => {
     navigation.setOptions({

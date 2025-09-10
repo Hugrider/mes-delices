@@ -83,7 +83,7 @@ export async function initDb() {
   return database;
 }
 
-async function resetDb() {
+export async function resetDb() {
   const dbPath = `${FileSystem.documentDirectory}SQLite/${DB_NAME}`;
   const fileInfo = await FileSystem.getInfoAsync(dbPath);
 

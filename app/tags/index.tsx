@@ -102,6 +102,7 @@ export default function Tags() {
             key={tag.id}
             style={({ pressed }) => [
               {
+                backgroundColor: colors.onBackground,
                 borderColor: isTagSelected(tag.id)
                   ? colors.primary
                   : colors.border,

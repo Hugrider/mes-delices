@@ -27,10 +27,23 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Mes recettes 🍲",
+          title: "Mes recettes",
           tabBarIcon: ({ color }) => (
             <FontAwesome6 size={24} name="bowl-food" color={color} />
           ),
+          headerStyle: {
+            height: 110,
+            backgroundColor: colors.background,
+          },
+          headerTitleStyle: {
+            marginTop: -8,
+          },
+          headerLeftContainerStyle: {
+            marginTop: -8,
+          },
+          headerRightContainerStyle: {
+            marginTop: -8,
+          },
         }}
       />
 

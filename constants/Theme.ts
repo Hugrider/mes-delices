@@ -5,7 +5,7 @@ const LightColors = {
   primaryDark: "#008FB3",
   accent: "#FF8C42",
   background: "#F9FAFB",
-  onBackground: "#E5E7EB",
+  onBackground: "#ebedf1ff",
   tabBarBackground: "#FFFFFF",
   border: "#E5E7EB",
   text: "#111827",

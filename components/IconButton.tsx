@@ -5,14 +5,18 @@ import { Pressable, StyleSheet } from "react-native";
 type Props = {
   icon: React.ReactNode;
   onPress: () => void;
+  backgroundColor?: string;
 };
 
-export default function IconButton({ icon, onPress }: Props) {
+export default function IconButton({ icon, onPress, backgroundColor }: Props) {
   const colors = useThemeColors();
   return (
     <Pressable
       style={({ pressed }) => [
-        { backgroundColor: colors.background, opacity: pressed ? 0.5 : 1 },
+        {
+          backgroundColor: backgroundColor ?? colors.onBackground,
+          opacity: pressed ? 0.5 : 1,
+        },
         styles.iconButton,
       ]}
       onPress={onPress}

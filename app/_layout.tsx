@@ -79,6 +79,7 @@ export default function RootLayout() {
                 icon={
                   <Entypo name="chevron-left" size={20} color={colors.text} />
                 }
+                backgroundColor={colors.background}
                 onPress={router.back}
               />
             ),
@@ -90,6 +91,9 @@ export default function RootLayout() {
             headerTitle: "Tags",
             headerTitleStyle: {
               color: colors.text,
+            },
+            headerStyle: {
+              backgroundColor: colors.background,
             },
             presentation: "card",
             headerShown: true,

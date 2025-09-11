@@ -32,7 +32,7 @@ export default function Popup({
           style={[
             styles.modalView,
             ShadowProperties,
-            { backgroundColor: colors.tabBarBackground },
+            { backgroundColor: colors.background },
           ]}
         >
           {title && <ThemedText text={title} style={styles.title} />}

@@ -15,7 +15,7 @@ export default function Item({ title, icon, onPress }: Props) {
     <Pressable
       style={({ pressed }) => [
         {
-          backgroundColor: colors.background,
+          backgroundColor: colors.onBackground,
           opacity: pressed ? 0.5 : 1,
           borderBottomColor: colors.onBackground,
           borderBottomWidth: 1,

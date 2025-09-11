@@ -13,7 +13,7 @@ export default function Settings() {
 
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: colors.onBackground }]}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <Section title="Tags">
         <Item

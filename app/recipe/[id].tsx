@@ -1,10 +1,13 @@
 import { ConfirmPopupHandler } from "@/components/ConfirmPopupHandler";
 import HeaderRecipeOptions from "@/components/recipe/HeaderRecipeOptions";
+import RecipeGrade from "@/components/recipe/RecipeGrade";
+import RecipeTags from "@/components/recipe/RecipeTags";
 import ThemedText from "@/components/ThemedText";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
 import { Recipe } from "@/types/Recipe";
 import { getCategoryLabel } from "@/utils/category-utils";
+import { AntDesign } from "@expo/vector-icons";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
@@ -28,9 +31,8 @@ export default function RecipeDetail() {
         navigation.setOptions({
           headerRight: () => (
             <HeaderRecipeOptions
-              onDelete={(id) => requestDelete(id)}
-              onEdit={(id) => alert("edition de " + id)}
-              recipeId={Number(id)}
+              onDelete={() => requestDelete(result)}
+              onEdit={() => alert("edition de " + result.id)}
             />
           ),
         });
@@ -43,12 +45,12 @@ export default function RecipeDetail() {
     router.back();
   };
 
-  const requestDelete = async (id: number) => {
-    const message = `Vous êtes sur le point de supprimer définitivement "${recipe?.name}".`;
+  const requestDelete = async (recipe: Recipe) => {
+    const message = `Vous êtes sur le point de supprimer définitivement "${recipe.name}".`;
     const androidTitle = "Suppression recette";
     const iosBtnDeleteMessage = "Supprimer la recette";
     ConfirmPopupHandler(message, iosBtnDeleteMessage, androidTitle, () =>
-      deleteRecipe(id)
+      deleteRecipe(recipe.id)
     );
   };
 
@@ -65,18 +67,24 @@ export default function RecipeDetail() {
       />
       <ScrollView
         style={StyleSheet.absoluteFill}
-        contentContainerStyle={{ paddingTop: IMAGE_HEIGHT - 50 }}
+        contentContainerStyle={{ paddingTop: IMAGE_HEIGHT - 30 }}
       >
         <View style={[styles.content, { backgroundColor: colors.background }]}>
           <ThemedText
             text={recipe.name}
             style={[styles.title, { color: colors.accent }]}
           />
-          <ThemedText text={recipe.grade ?? 0} />
           <ThemedText
             text={getCategoryLabel(recipe.category)}
             style={[styles.category, { color: colors.inactive }]}
           />
+          <RecipeGrade grade={recipe.grade} style={{ margin: 10 }} />
+          <RecipeTags tags={recipe.tags} />
+          <View style={styles.cookingTime}>
+            <AntDesign name="clockcircleo" size={20} color={colors.inactive} />
+            <ThemedText text={`${recipe.cookingTime ?? "--"} min`} />
+          </View>
+
           <ThemedText
             text="Ingrédients"
             style={[styles.ingredientsLabel, { color: colors.primary }]}
@@ -117,9 +125,14 @@ const styles = StyleSheet.create({
   category: {
     textAlign: "center",
   },
+  cookingTime: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
   ingredientsLabel: {
     fontWeight: "bold",
-    marginTop: 30,
+    marginTop: 20,
   },
   ingredientList: {
     marginTop: 5,

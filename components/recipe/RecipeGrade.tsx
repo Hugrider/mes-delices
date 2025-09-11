@@ -1,14 +1,15 @@
 import { useThemeColors } from "@/constants/Theme";
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import ThemedText from "../ThemedText";
 
 type Props = {
   grade: number;
   compact?: boolean;
+  style?: ViewStyle;
 };
-export default function RecipeGrade({ grade, compact }: Props) {
+export default function RecipeGrade({ grade, compact, style }: Props) {
   const colors = useThemeColors();
 
   function renderStars() {
@@ -34,7 +35,7 @@ export default function RecipeGrade({ grade, compact }: Props) {
     }
   }
 
-  return <View style={styles.container}>{renderStars()}</View>;
+  return <View style={[styles.container, style]}>{renderStars()}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -42,9 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-
     gap: 3,
-    margin: 10,
   },
   compact: {
     flexDirection: "row",

@@ -8,14 +8,13 @@ import useRecipeStore from "@/store/useRecipeStore";
 import { Recipe } from "@/types/Recipe";
 import { getCategoryLabel } from "@/utils/category-utils";
 import { AntDesign } from "@expo/vector-icons";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function RecipeDetail() {
   const { id } = useLocalSearchParams();
-  const navigation = useNavigation();
   const { getRecipeById, removeRecipe } = useRecipeStore();
   const colors = useThemeColors();
   const [recipe, setRecipe] = useState<Recipe>();
@@ -28,17 +27,9 @@ export default function RecipeDetail() {
       const result = await getRecipeById(Number(id));
       if (result) {
         setRecipe(result);
-        navigation.setOptions({
-          headerRight: () => (
-            <HeaderRecipeOptions
-              onDelete={() => requestDelete(result)}
-              onEdit={() => alert("edition de " + result.id)}
-            />
-          ),
-        });
       }
     })();
-  }, [id, getRecipeById, navigation]);
+  }, [id, getRecipeById]);
 
   const deleteRecipe = async (id: number) => {
     await removeRecipe(id);
@@ -57,6 +48,18 @@ export default function RecipeDetail() {
   if (!recipe) return;
   return (
     <View style={styles.container}>
+      {/* Header navigation */}
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <HeaderRecipeOptions
+              onDelete={() => requestDelete(recipe)}
+              onEdit={() => alert("edition de " + recipe.id)}
+            />
+          ),
+        }}
+      />
+
       <Image
         source={
           recipe.photoUri

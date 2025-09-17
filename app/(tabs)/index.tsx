@@ -1,10 +1,11 @@
+import HeaderRecipesOptions from "@/components/allRecipe/HeaderRecipesOptions";
 import FloatingButton from "@/components/FloatingButton";
 import RecipeList from "@/components/recipe/RecipeList";
 import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
 import { Recipe } from "@/types/Recipe";
 import { AntDesign } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -15,6 +16,7 @@ export default function Recipes() {
 
   const [search, setSearch] = useState("");
   const [filteredItems, setFilteredItems] = useState<Recipe[]>(recipes);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -34,6 +36,16 @@ export default function Recipes() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <HeaderRecipesOptions
+              onDisplayPress={() => alert("Affichage")}
+              onFilterPress={() => setIsFilterVisible((state) => !state)}
+            />
+          ),
+        }}
+      />
       <RecipeList
         recipes={filteredItems}
         search={search}

@@ -5,8 +5,8 @@ import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import useTagStore from "@/store/useTagStore";
 import { Tag } from "@/types/Tag";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { Stack } from "expo-router";
+import React, { useState } from "react";
 import { Button, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import AddTag from "./components/AddTag";
 import HeaderTagOptions from "./components/HeaderTagsOptions";
@@ -15,7 +15,6 @@ import RenameTag from "./components/RenameTag";
 export default function Tags() {
   const colors = useThemeColors();
   const { tags, removeTag } = useTagStore();
-  const navigation = useNavigation();
 
   const [isRenaming, setIsRenaming] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -23,20 +22,6 @@ export default function Tags() {
 
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
   const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        isSelecting ? (
-          <Button title="Annuler" onPress={clearSelect} />
-        ) : (
-          <HeaderTagOptions
-            onAddPress={() => setIsAdding(true)}
-            onEditPress={() => setIsSelecting(true)}
-          />
-        ),
-    });
-  }, [navigation, isSelecting]);
 
   function handleRename(tag: Tag) {
     setIsRenaming(true);
@@ -93,6 +78,21 @@ export default function Tags() {
 
   return (
     <>
+      {/* Header navigation */}
+      <Stack.Screen
+        options={{
+          headerRight: () =>
+            isSelecting ? (
+              <Button title="Annuler" onPress={clearSelect} />
+            ) : (
+              <HeaderTagOptions
+                onAddPress={() => setIsAdding(true)}
+                onEditPress={() => setIsSelecting(true)}
+              />
+            ),
+        }}
+      />
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.container, { backgroundColor: colors.background }]}

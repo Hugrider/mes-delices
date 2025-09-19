@@ -14,12 +14,12 @@ export default function HeaderRecipeOptions({ onEdit, onDelete }: Props) {
     <View style={styles.buttonsContainer}>
       <IconButton
         icon={<AntDesign name="delete" size={20} color="red" />}
-        backgroundColor={colors.background}
+        backgroundColor={"transparent"}
         onPress={onDelete}
       />
       <IconButton
         icon={<Feather name="edit" size={20} color={colors.text} />}
-        backgroundColor={colors.background}
+        backgroundColor={"transparent"}
         onPress={onEdit}
       />
     </View>

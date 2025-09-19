@@ -28,9 +28,10 @@ export default function IconButton({ icon, onPress, backgroundColor }: Props) {
 
 const styles = StyleSheet.create({
   iconButton: {
-    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 20,
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
 });

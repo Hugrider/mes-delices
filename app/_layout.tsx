@@ -79,7 +79,7 @@ export default function RootLayout() {
                 icon={
                   <Entypo name="chevron-left" size={20} color={colors.text} />
                 }
-                backgroundColor={colors.background}
+                backgroundColor={"transparent"}
                 onPress={router.back}
               />
             ),

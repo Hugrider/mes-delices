@@ -93,7 +93,7 @@ export default function RootLayout() {
               color: colors.text,
             },
             headerStyle: {
-              backgroundColor: colors.background,
+              backgroundColor: "transparent",
             },
             presentation: "card",
             headerShown: true,

@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
 import { useThemeColors } from "@/constants/Theme";
-import { AntDesign } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React from "react";
 
 type Props = {
@@ -17,7 +17,7 @@ export default function SearchRecipe({ search, setSearch }: Props) {
       onChangeText={setSearch}
       label="Rechercher"
       wrapperStyle={{ marginBottom: 20 }}
-      icon={<AntDesign name="search1" size={24} color={colors.border} />}
+      icon={<Octicons name="search" size={24} color={colors.border} />}
       returnKeyType="search"
     />
   );

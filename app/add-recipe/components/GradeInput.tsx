@@ -1,6 +1,6 @@
 import ThemedText from "@/components/ThemedText";
 import { useThemeColors } from "@/constants/Theme";
-import { AntDesign } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -23,9 +23,9 @@ export default function GradeInput({ grade, setGrade }: Props) {
           const isFilled = i < Math.round(Math.min(Math.max(grade, 0), 5));
           return (
             <Pressable key={i} onPress={() => toggleClick(i)}>
-              <AntDesign
-                name={isFilled ? "star" : "staro"}
-                size={22}
+              <Octicons
+                name={isFilled ? "star-fill" : "star"}
+                size={24}
                 color={colors.accent}
               />
             </Pressable>

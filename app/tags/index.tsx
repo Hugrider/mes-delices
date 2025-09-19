@@ -4,7 +4,7 @@ import ThemedText from "@/components/ThemedText";
 import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import useTagStore from "@/store/useTagStore";
 import { Tag } from "@/types/Tag";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { Feather, Octicons } from "@expo/vector-icons";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
 import { Button, Pressable, ScrollView, StyleSheet, View } from "react-native";
@@ -90,6 +90,7 @@ export default function Tags() {
                 onEditPress={() => setIsSelecting(true)}
               />
             ),
+          headerLargeTitle: true,
         }}
       />
 
@@ -116,8 +117,8 @@ export default function Tags() {
             <ThemedText text={tag.name} />
             {isSelecting &&
               (isTagSelected(tag.id) ? (
-                <AntDesign
-                  name="checkcircle"
+                <Octicons
+                  name="check-circle-fill"
                   size={20}
                   color={colors.primary}
                 />

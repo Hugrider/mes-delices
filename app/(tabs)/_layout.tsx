@@ -1,5 +1,5 @@
 import { useThemeColors } from "@/constants/Theme";
-import { AntDesign, Feather, FontAwesome6 } from "@expo/vector-icons";
+import { Feather, FontAwesome6 } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { StyleSheet } from "react-native";
 
@@ -62,7 +62,7 @@ export default function TabLayout() {
         options={{
           title: "Réglages",
           tabBarIcon: ({ color }) => (
-            <AntDesign name="setting" size={24} color={color} />
+            <Feather name="settings" size={24} color={color} />
           ),
         }}
       />

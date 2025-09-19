@@ -84,7 +84,7 @@ export default function RecipeDetail() {
           <RecipeGrade grade={recipe.grade} style={{ margin: 10 }} />
           <RecipeTags tags={recipe.tags} />
           <View style={styles.cookingTime}>
-            <AntDesign name="clockcircleo" size={20} color={colors.inactive} />
+            <AntDesign name="clock-circle" size={20} color={colors.inactive} />
             <ThemedText text={`${recipe.cookingTime ?? "--"} min`} />
           </View>
 

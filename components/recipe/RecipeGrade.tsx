@@ -1,5 +1,5 @@
 import { useThemeColors } from "@/constants/Theme";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Octicons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import ThemedText from "../ThemedText";
@@ -24,9 +24,9 @@ export default function RecipeGrade({ grade, compact, style }: Props) {
       return Array.from({ length: 5 }, (_, i) => {
         const isFilled = i < Math.round(Math.min(Math.max(grade, 0), 5));
         return (
-          <AntDesign
+          <Octicons
             key={i}
-            name={isFilled ? "star" : "staro"}
+            name={isFilled ? "star-fill" : "star"}
             size={16}
             color={colors.accent}
           />

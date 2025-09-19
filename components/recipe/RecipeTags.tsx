@@ -18,7 +18,7 @@ export default function RecipeTags({ tags }: Props) {
           key={tag.id}
           style={[styles.tag, { backgroundColor: colors.onBackground }]}
         >
-          <AntDesign name="tago" size={16} color={colors.primary} />
+          <AntDesign name="tag" size={16} color={colors.primary} />
           <ThemedText
             text={tag.name}
             style={{ fontSize: 12, fontWeight: 300 }}

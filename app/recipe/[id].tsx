@@ -10,7 +10,7 @@ import { getCategoryLabel } from "@/utils/category-utils";
 import { AntDesign } from "@expo/vector-icons";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, Linking, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function RecipeDetail() {
@@ -102,6 +102,15 @@ export default function RecipeDetail() {
             ))}
           </View>
           <ThemedText text={recipe.description} style={styles.description} />
+          {recipe.link && (
+            <View>
+              <ThemedText
+                text={`Lien externe : ${recipe.link}`}
+                style={[styles.ingredientsLabel, { color: colors.primary }]}
+                onPress={() => Linking.openURL(recipe.link)}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -131,7 +140,9 @@ const styles = StyleSheet.create({
   cookingTime: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 5,
+    marginTop: 10,
   },
   ingredientsLabel: {
     fontWeight: "bold",

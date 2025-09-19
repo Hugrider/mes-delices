@@ -5,8 +5,8 @@ async function add(recipe: RecipeForm): Promise<number | null> {
   const db = await getDb();
   try {
     const result = await db.runAsync(
-      `INSERT INTO recipes (name, category, grade, ingredients, servings, cookingTime, description, photoUri)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO recipes (name, category, grade, ingredients, servings, cookingTime, description, link, photoUri)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       recipe.name,
       recipe.category,
       recipe.grade,
@@ -14,6 +14,7 @@ async function add(recipe: RecipeForm): Promise<number | null> {
       recipe.servings,
       recipe.cookingTime,
       recipe.description,
+      recipe.link,
       recipe.photoUri || null
     );
 

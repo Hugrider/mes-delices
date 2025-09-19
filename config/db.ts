@@ -1,4 +1,4 @@
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import * as SQLite from "expo-sqlite";
 
 let db: SQLite.SQLiteDatabase | null = null;
@@ -35,6 +35,7 @@ export async function initDb() {
       servings INTEGER,
       cookingTime INTEGER,
       description TEXT,
+      link TEXT,
       photoUri TEXT
     );
   `);

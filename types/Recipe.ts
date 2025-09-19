@@ -12,6 +12,7 @@ export type Recipe = {
   servings: number;
   cookingTime: number;
   description: string;
+  link: string;
   createdAt: string;
 };
 
@@ -25,4 +26,5 @@ export type RecipeForm = {
   servings: number;
   cookingTime: number;
   description: string;
+  link: string;
 };

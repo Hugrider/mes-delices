@@ -21,7 +21,7 @@ export default forwardRef<BottomSheet, Props>(function CustomBottomSheet(
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop {...props} opacity={0.2} disappearsOnIndex={0} />
+      <BottomSheetBackdrop {...props} opacity={0.2} disappearsOnIndex={-1} />
     ),
     []
   );

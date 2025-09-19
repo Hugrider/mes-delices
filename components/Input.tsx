@@ -10,12 +10,14 @@ import {
 } from "react-native";
 
 type Props = {
+  type?: "text" | "number";
   label?: string;
   icon?: React.ReactNode;
   wrapperStyle?: ViewStyle;
 } & TextInputProps;
 
 export default function Input({
+  type,
   label,
   value,
   onChange,
@@ -66,6 +68,7 @@ export default function Input({
       <Animated.Text style={animatedLabelStyle}>{label}</Animated.Text>
       <TextInput
         {...rest}
+        keyboardType={type === "number" ? "number-pad" : "default"}
         value={value}
         style={[styles.input, { color: colors.text }]}
         onFocus={() => setIsFocused(true)}

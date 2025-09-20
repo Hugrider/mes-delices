@@ -17,7 +17,7 @@ export default function Item({ title, icon, onPress }: Props) {
         {
           backgroundColor: colors.onBackground,
           opacity: pressed ? 0.5 : 1,
-          borderBottomColor: colors.onBackground,
+          borderBottomColor: colors.border,
           borderBottomWidth: 1,
         },
         styles.item,

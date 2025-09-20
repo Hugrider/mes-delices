@@ -19,7 +19,7 @@ const DarkColors = {
   background: "#0D1117",
   onBackground: "#30363D",
   tabBarBackground: "#161B22",
-  border: "#30363D",
+  border: "#3d444dff",
   text: "#E5E7EB",
   inactive: "#6B7280",
 };

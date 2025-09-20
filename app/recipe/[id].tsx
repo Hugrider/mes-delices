@@ -1,23 +1,24 @@
 import { ConfirmPopupHandler } from "@/components/ConfirmPopupHandler";
-import HeaderRecipeOptions from "@/components/recipe/HeaderRecipeOptions";
-import RecipeGrade from "@/components/recipe/RecipeGrade";
-import RecipeTags from "@/components/recipe/RecipeTags";
-import ThemedText from "@/components/ThemedText";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
-import { Recipe } from "@/types/Recipe";
-import { getCategoryLabel } from "@/utils/category-utils";
-import { AntDesign } from "@expo/vector-icons";
+import type { Recipe as RecipeType } from "@/types/Recipe";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, Linking, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import HeaderRecipeOptions from "./_components/HeaderRecipeOptions";
+import RecipeDetail from "./_components/RecipeDetail";
+import RecipeIngredients from "./_components/RecipeIngredients";
+import RecipeInstructions from "./_components/RecipeInstructions";
+import RecipeTabs, { RecipeTab } from "./_components/RecipeTabs";
+import TopInfoRecipe from "./_components/TopInfoRecipe";
 
-export default function RecipeDetail() {
+export default function Recipe() {
   const { id } = useLocalSearchParams();
   const { getRecipeById, removeRecipe } = useRecipeStore();
   const colors = useThemeColors();
-  const [recipe, setRecipe] = useState<Recipe>();
+  const [recipe, setRecipe] = useState<RecipeType>();
+  const [selectedTab, setSelectedTab] = useState<number>(0);
   const [editing, setEditing] = useState(false);
 
   const IMAGE_HEIGHT = 400;
@@ -31,12 +32,25 @@ export default function RecipeDetail() {
     })();
   }, [id, getRecipeById]);
 
+  function getTabs(recipe?: RecipeType): RecipeTab[] {
+    const baseTabs: RecipeTab[] = [
+      { key: 0, value: "Ingrédients" },
+      { key: 1, value: "Détails" },
+    ];
+
+    if (recipe?.description) {
+      baseTabs.push({ key: 2, value: "Instructions" });
+    }
+
+    return baseTabs;
+  }
+
   const deleteRecipe = async (id: number) => {
     await removeRecipe(id);
     router.back();
   };
 
-  const requestDelete = async (recipe: Recipe) => {
+  const requestDelete = async (recipe: RecipeType) => {
     const message = `Vous êtes sur le point de supprimer définitivement "${recipe.name}".`;
     const androidTitle = "Suppression recette";
     const iosBtnDeleteMessage = "Supprimer la recette";
@@ -73,44 +87,22 @@ export default function RecipeDetail() {
         contentContainerStyle={{ paddingTop: IMAGE_HEIGHT - 30 }}
       >
         <View style={[styles.content, { backgroundColor: colors.background }]}>
-          <ThemedText
-            text={recipe.name}
-            style={[styles.title, { color: colors.accent }]}
+          <TopInfoRecipe recipe={recipe} />
+          <RecipeTabs
+            tabs={getTabs(recipe)}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
           />
-          <ThemedText
-            text={getCategoryLabel(recipe.category)}
-            style={[styles.category, { color: colors.inactive }]}
-          />
-          <RecipeGrade grade={recipe.grade} style={{ margin: 10 }} />
-          <RecipeTags tags={recipe.tags} />
-          <View style={styles.cookingTime}>
-            <AntDesign name="clock-circle" size={20} color={colors.inactive} />
-            <ThemedText text={`${recipe.cookingTime ?? "--"} min`} />
-          </View>
 
-          <ThemedText
-            text="Ingrédients"
-            style={[styles.ingredientsLabel, { color: colors.primary }]}
-          />
-          <View style={styles.ingredientList}>
-            {recipe.ingredients.map((ingredient, index) => (
-              <ThemedText
-                key={index}
-                text={`• ${ingredient}`}
-                style={styles.ingredient}
-              />
-            ))}
+          <View style={styles.tabsContent}>
+            {selectedTab === 0 ? (
+              <RecipeIngredients recipe={recipe} />
+            ) : selectedTab === 1 ? (
+              <RecipeDetail recipe={recipe} />
+            ) : (
+              <RecipeInstructions recipe={recipe} />
+            )}
           </View>
-          <ThemedText text={recipe.description} style={styles.description} />
-          {recipe.link && (
-            <View>
-              <ThemedText
-                text={`Lien externe : ${recipe.link}`}
-                style={[styles.ingredientsLabel, { color: colors.primary }]}
-                onPress={() => Linking.openURL(recipe.link)}
-              />
-            </View>
-          )}
         </View>
       </ScrollView>
     </View>
@@ -128,34 +120,7 @@ const styles = StyleSheet.create({
     padding: 20,
     minHeight: Dimensions.get("window").height,
   },
-  title: {
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: 700,
-    marginBottom: 5,
-  },
-  category: {
-    textAlign: "center",
-  },
-  cookingTime: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 5,
-    marginTop: 10,
-  },
-  ingredientsLabel: {
-    fontWeight: "bold",
+  tabsContent: {
     marginTop: 20,
-  },
-  ingredientList: {
-    marginTop: 5,
-    marginLeft: 10,
-  },
-  ingredient: {
-    marginTop: 4,
-  },
-  description: {
-    marginTop: 30,
   },
 });

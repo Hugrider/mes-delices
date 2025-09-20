@@ -1,8 +1,8 @@
+import IconButton from "@/components/IconButton";
 import { useThemeColors } from "@/constants/Theme";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import IconButton from "../IconButton";
 
 type Props = {
   onEdit: () => void;

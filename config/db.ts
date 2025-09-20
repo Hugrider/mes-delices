@@ -14,8 +14,6 @@ export async function getDb() {
 }
 
 export async function initDb() {
-  // /!\ RENITIALISATION DE LA BDD
-  // await resetDb();
   const database = await getDb();
 
   const row = await database.getFirstAsync<{ user_version: number }>(
@@ -36,7 +34,8 @@ export async function initDb() {
       cookingTime INTEGER,
       description TEXT,
       link TEXT,
-      photoUri TEXT
+      photoUri TEXT,
+      createdAt INTEGER
     );
   `);
 

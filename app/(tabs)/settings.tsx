@@ -1,6 +1,7 @@
 import Item from "@/components/settings/Item";
 import Section from "@/components/settings/Section";
 import { resetDb } from "@/config/db";
+import { insertJdd } from "@/config/jdd";
 import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -34,6 +35,13 @@ export default function Settings() {
             resetDb();
             BackHandler.exitApp();
           }}
+        />
+        <Item
+          title="Insérer des données"
+          icon={
+            <Feather name="chevron-right" size={20} color={colors.inactive} />
+          }
+          onPress={async () => await insertJdd()}
         />
       </Section>
     </ScrollView>

@@ -1,13 +1,22 @@
+import { useThemeColors } from "@/constants/Theme";
 import { Recipe } from "@/types/Recipe";
 import { router } from "expo-router";
 import React from "react";
-import { Dimensions, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import ThemedText from "../ThemedText";
+import RecipeGrade from "./RecipeGrade";
 
 type Props = {
   recipe: Recipe;
 };
 export default function RecipeCard({ recipe }: Props) {
+  const colors = useThemeColors();
   const screenWidth = Dimensions.get("window").width;
   const cardWidth = (screenWidth - 36) / 2; // 2 colonnes + marges
 
@@ -25,8 +34,10 @@ export default function RecipeCard({ recipe }: Props) {
         }
         style={styles.image}
       />
+      <View style={[styles.grade, { backgroundColor: colors.background }]}>
+        <RecipeGrade grade={recipe.grade} compact />
+      </View>
       <ThemedText text={recipe.name} style={styles.title} />
-      {/* <Button title="Supprimer" onPress={() => handleDelete(recipe.id!)} /> */}
     </TouchableOpacity>
   );
 }
@@ -42,6 +53,15 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 150,
     borderRadius: 8,
+  },
+  grade: {
+    position: "absolute",
+    top: 6,
+    right: 6,
+    borderRadius: 10,
+    padding: 3,
+    paddingRight: 6,
+    paddingLeft: 6,
   },
   title: {
     marginTop: 5,

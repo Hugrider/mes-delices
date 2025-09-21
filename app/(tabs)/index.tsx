@@ -1,3 +1,4 @@
+import Filters from "@/components/allRecipe/Filters";
 import HeaderRecipesOptions from "@/components/allRecipe/HeaderRecipesOptions";
 import FloatingButton from "@/components/FloatingButton";
 import RecipeList from "@/components/recipe/RecipeList";
@@ -5,8 +6,9 @@ import { PaddingContainer, useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
 import { Recipe } from "@/types/Recipe";
 import { AntDesign } from "@expo/vector-icons";
-import { Stack, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { Tabs, useRouter } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 export default function Recipes() {
@@ -16,7 +18,8 @@ export default function Recipes() {
 
   const [search, setSearch] = useState("");
   const [filteredItems, setFilteredItems] = useState<Recipe[]>(recipes);
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+  const filterRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -36,12 +39,12 @@ export default function Recipes() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Stack.Screen
+      <Tabs.Screen
         options={{
           headerRight: () => (
             <HeaderRecipesOptions
-              onDisplayPress={() => alert("Affichage")}
-              onFilterPress={() => setIsFilterVisible((state) => !state)}
+              onDisplayPress={() => alert("Bientôt disponible !")}
+              onFilterPress={() => filterRef.current?.expand()}
             />
           ),
         }}
@@ -55,6 +58,12 @@ export default function Recipes() {
         icon={<AntDesign name="plus" size={28} color="#fff" />}
         onPress={() => router.push("/add-recipe")}
       />
+      <Filters
+        ref={filterRef}
+        items={recipes}
+        filteredItems={filteredItems}
+        setFilteredItems={setFilteredItems}
+      />
     </View>
   );
 }
@@ -65,8 +74,6 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
     padding: PaddingContainer,
-  },
-  search: {
-    marginBottom: 30,
+    paddingBottom: 0,
   },
 });

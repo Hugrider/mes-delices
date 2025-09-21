@@ -11,7 +11,7 @@ import RecipeTags from "./RecipeTags";
 type Props = {
   recipe: Recipe;
 };
-export default function TopInfoRecipe({ recipe }: Props) {
+export default function RecipeDetails({ recipe }: Props) {
   const colors = useThemeColors();
 
   return (
@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 5,
-    marginTop: 10,
+    marginTop: 15,
   },
 });

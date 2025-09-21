@@ -1,4 +1,6 @@
-export function formatDate(timestamp: string) {
+export function formatDate(timestamp?: string) {
+  if (!timestamp) return "--";
+
   const date = new Date(timestamp);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0"); // mois de 0 à 11
@@ -10,7 +12,9 @@ export function formatDate(timestamp: string) {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-export function formatDateLong(timestamp: string) {
+export function formatDateLong(timestamp?: string) {
+  if (!timestamp) return "--";
+
   const date = new Date(timestamp);
   return new Intl.DateTimeFormat("fr-FR", {
     day: "numeric",

@@ -1,4 +1,5 @@
 import { ConfirmPopupHandler } from "@/components/ConfirmPopupHandler";
+import SlideTabs, { SlideTabsType } from "@/components/SlideTabs";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
 import type { Recipe as RecipeType } from "@/types/Recipe";
@@ -7,11 +8,9 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import HeaderRecipeOptions from "./_components/HeaderRecipeOptions";
-import RecipeDetail from "./_components/RecipeDetail";
+import RecipeDetails from "./_components/RecipeDetails";
 import RecipeIngredients from "./_components/RecipeIngredients";
 import RecipeInstructions from "./_components/RecipeInstructions";
-import RecipeTabs, { RecipeTab } from "./_components/RecipeTabs";
-import TopInfoRecipe from "./_components/TopInfoRecipe";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
@@ -32,18 +31,10 @@ export default function Recipe() {
     })();
   }, [id, getRecipeById]);
 
-  function getTabs(recipe?: RecipeType): RecipeTab[] {
-    const baseTabs: RecipeTab[] = [
-      { key: 0, value: "Ingrédients" },
-      { key: 1, value: "Détails" },
-    ];
-
-    if (recipe?.description) {
-      baseTabs.push({ key: 2, value: "Instructions" });
-    }
-
-    return baseTabs;
-  }
+  const TABS: SlideTabsType[] = [
+    { key: 0, value: "Ingrédients" },
+    { key: 1, value: "Instructions" },
+  ];
 
   const deleteRecipe = async (id: number) => {
     await removeRecipe(id);
@@ -87,21 +78,17 @@ export default function Recipe() {
         contentContainerStyle={{ paddingTop: IMAGE_HEIGHT - 30 }}
       >
         <View style={[styles.content, { backgroundColor: colors.background }]}>
-          <TopInfoRecipe recipe={recipe} />
-          <RecipeTabs
-            tabs={getTabs(recipe)}
+          <RecipeDetails recipe={recipe} />
+          <SlideTabs
+            tabs={TABS}
             selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
+            wrapperStyle={styles.tabsWrapper}
           />
 
           <View style={styles.tabsContent}>
-            {selectedTab === 0 ? (
-              <RecipeIngredients recipe={recipe} />
-            ) : selectedTab === 1 ? (
-              <RecipeDetail recipe={recipe} />
-            ) : (
-              <RecipeInstructions recipe={recipe} />
-            )}
+            {selectedTab === 0 && <RecipeIngredients recipe={recipe} />}
+            {selectedTab === 1 && <RecipeInstructions recipe={recipe} />}
           </View>
         </View>
       </ScrollView>
@@ -119,6 +106,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     padding: 20,
     minHeight: Dimensions.get("window").height,
+  },
+  tabsWrapper: {
+    marginTop: 20,
   },
   tabsContent: {
     marginTop: 20,

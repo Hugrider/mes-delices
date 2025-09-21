@@ -72,7 +72,12 @@ export default function Dropdown<T>({
         <Entypo name="chevron-small-down" size={20} color={colors.text} />
       </Pressable>
       {isExpended && (
-        <ScrollView style={[styles.scrollView, { borderColor: colors.border }]}>
+        <ScrollView
+          style={[
+            styles.scrollView,
+            { borderColor: colors.border, backgroundColor: colors.background },
+          ]}
+        >
           {items.map((item) => (
             <TouchableOpacity
               key={keyExtractor(item)}
@@ -106,7 +111,7 @@ export default function Dropdown<T>({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 10,
   },
   trigger: {
@@ -121,7 +126,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginTop: 5,
-    position: "sticky",
+    position: "absolute",
+    zIndex: 999,
+    right: 0,
+    left: 0,
+    top: 45,
   },
   item: {
     padding: 12,

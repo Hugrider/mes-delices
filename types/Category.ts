@@ -1,3 +1,9 @@
-export const CATEGORIES = ["beef", "chicken", "vegetarian", "fish"] as const;
+export const CATEGORIES = [
+  "starter",
+  "meat",
+  "fish",
+  "vegetarian",
+  "dessert",
+] as const;
 
-export type Category = (typeof CATEGORIES)[number] | string;
+export type Category = (typeof CATEGORIES)[number] | (string & {});

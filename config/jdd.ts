@@ -3,10 +3,6 @@ import useTagStore from "@/store/useTagStore";
 import { RecipeForm } from "@/types/Recipe";
 import { Tag } from "@/types/Tag";
 
-const IMG_PATH =
-  "file:///Users/hugo/Library/Developer/CoreSimulator/Devices/4FC207C4-8778-45C9-9981-16E0A5DCEA5A/data/Containers/Data/Application/FF9D2FCE-6BAB-4F5C-8A7F-886061F4EB26/Library/Caches/ExponentExperienceData/@hugrider/mes-delices/ImagePicker/1DE1E56B-8580-4A06-8605-380E1FE6F492.jpg";
-
-// Tags exemples
 const TAGS: Tag[] = [
   { id: 1, name: "Rapide" },
   { id: 2, name: "Healthy" },
@@ -19,7 +15,7 @@ const DATA: RecipeForm[] = [
   {
     photoUri: "https://picsum.photos/seed/spaghetti/400/300",
     name: "Spaghetti Bolognaise",
-    category: "beef",
+    category: "meat",
     grade: 4,
     tagIds: [1, 3],
     ingredients: ["spaghetti", "tomate", "viande hachée", "oignon", "ail"],
@@ -31,7 +27,7 @@ const DATA: RecipeForm[] = [
   {
     photoUri: "https://picsum.photos/seed/poulet/400/300",
     name: "Poulet rôti",
-    category: "chicken",
+    category: "meat",
     grade: 5,
     tagIds: [3],
     ingredients: [
@@ -49,7 +45,7 @@ const DATA: RecipeForm[] = [
   {
     photoUri: "https://picsum.photos/seed/salade/400/300",
     name: "Salade César",
-    category: "chicken",
+    category: "meat",
     grade: 5,
     tagIds: [2],
     ingredients: ["laitue", "poulet", "parmesan", "croutons", "sauce César"],
@@ -121,7 +117,7 @@ const DATA: RecipeForm[] = [
   {
     photoUri: "https://picsum.photos/seed/tacos/400/300",
     name: "Tacos au poulet",
-    category: "chicken",
+    category: "starter",
     grade: 5,
     tagIds: [1, 3],
     ingredients: ["tortillas", "poulet", "salade", "tomate", "sauce salsa"],
@@ -133,7 +129,7 @@ const DATA: RecipeForm[] = [
   {
     photoUri: "https://picsum.photos/seed/ratatouille/400/300",
     name: "Ratatouille",
-    category: "vegetarian",
+    category: "dessert",
     grade: 5,
     tagIds: [2, 4],
     ingredients: ["aubergine", "courgette", "poivron", "tomate", "oignon"],
@@ -145,7 +141,7 @@ const DATA: RecipeForm[] = [
   {
     photoUri: "https://picsum.photos/seed/steak/400/300",
     name: "Steak grillé",
-    category: "beef",
+    category: "meat",
     grade: 5,
     tagIds: [3],
     ingredients: ["steak", "sel", "poivre", "huile d'olive"],

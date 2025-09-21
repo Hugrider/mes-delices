@@ -12,6 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
@@ -93,7 +94,8 @@ export default function RootLayout() {
               color: colors.text,
             },
             headerStyle: {
-              backgroundColor: "transparent",
+              backgroundColor:
+                Platform.OS === "ios" ? "transparent" : colors.background,
             },
             presentation: "card",
             headerShown: true,

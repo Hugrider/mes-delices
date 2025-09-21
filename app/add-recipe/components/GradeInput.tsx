@@ -38,7 +38,7 @@ export default function GradeInput({ grade, setGrade }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+    margin: 30,
   },
   text: {
     textAlign: "center",

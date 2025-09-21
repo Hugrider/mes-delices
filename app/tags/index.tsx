@@ -98,6 +98,14 @@ export default function Tags() {
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.container, { backgroundColor: colors.background }]}
       >
+        {tags.length === 0 && (
+          <ThemedButton
+            text="Ajouter un Tag"
+            type="primary"
+            onPress={() => setIsAdding(true)}
+          />
+        )}
+
         {tags.map((tag) => (
           <Pressable
             key={tag.id}

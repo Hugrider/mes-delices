@@ -16,7 +16,6 @@ export default function SearchRecipe({ search, setSearch }: Props) {
       value={search}
       onChangeText={setSearch}
       label="Rechercher"
-      wrapperStyle={{ marginBottom: 20 }}
       icon={<Octicons name="search" size={24} color={colors.border} />}
       returnKeyType="search"
     />

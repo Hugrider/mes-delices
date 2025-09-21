@@ -1,7 +1,14 @@
+import IconButton from "@/components/IconButton";
 import Input from "@/components/Input";
+import ThemedText from "@/components/ThemedText";
 import { useThemeColors } from "@/constants/Theme";
+import {
+  getIngredientName,
+  getIngredientQuantity,
+} from "@/utils/ingredients-utils";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 type Props = {
   ingredients: string[];
@@ -10,12 +17,17 @@ type Props = {
 
 export default function IngredientsInput({ ingredients, onChange }: Props) {
   const colors = useThemeColors();
-  const [current, setCurrent] = useState("");
+  const [currentName, setCurrentName] = useState("");
+  const [currentQuantity, setCurrentQuantity] = useState("");
 
   const addIngredient = () => {
-    if (!current.trim()) return;
-    onChange([...ingredients, current.trim()]);
-    setCurrent("");
+    if (!currentName.trim()) return;
+    onChange([
+      ...ingredients,
+      currentName.trim() + ";" + currentQuantity.trim(),
+    ]);
+    setCurrentName("");
+    setCurrentQuantity("");
   };
 
   const removeIngredient = (index: number) => {
@@ -24,24 +36,40 @@ export default function IngredientsInput({ ingredients, onChange }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Ingrédients</Text>
+      <ThemedText text="Ingrédients :" />
 
       <View style={styles.row}>
         <Input
-          value={current}
-          onChangeText={setCurrent}
-          label="Ex: 2 tomates"
+          value={currentName}
+          onChangeText={setCurrentName}
+          label="Ex: Crème fraiche"
           wrapperStyle={{ flex: 1 }}
         />
+        <Input
+          value={currentQuantity}
+          onChangeText={setCurrentQuantity}
+          label="Ex: 250g"
+          wrapperStyle={{ width: 100 }}
+        />
 
-        <Button title="+" onPress={addIngredient} />
+        <IconButton
+          icon={<Feather name="plus" size={22} color={colors.primary} />}
+          onPress={addIngredient}
+        />
       </View>
 
       {/* Liste des ingrédients déjà ajoutés */}
-      {ingredients.map((ing, index) => (
+      {[...ingredients].reverse().map((ing, index) => (
         <View key={index} style={styles.ingredientRow}>
-          <Text style={styles.ingredientText}>{ing}</Text>
-          <Button title="✕" onPress={() => removeIngredient(index)} />
+          <ThemedText text={getIngredientName(ing)} style={styles.name} />
+          <ThemedText
+            text={getIngredientQuantity(ing)}
+            style={styles.quantity}
+          />
+          <IconButton
+            icon={<AntDesign name="close" size={18} color="red" />}
+            onPress={() => removeIngredient(ingredients.length - 1 - index)}
+          />
         </View>
       ))}
     </View>
@@ -69,12 +97,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 6,
+    paddingLeft: 10,
   },
-  ingredientText: {
-    fontSize: 16,
+  name: {
+    flex: 1,
   },
-  label: {
+  quantity: {
     fontWeight: "600",
-    marginBottom: 8,
+    width: 100,
   },
 });

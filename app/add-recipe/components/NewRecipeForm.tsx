@@ -1,131 +1,88 @@
-import Input from "@/components/Input";
-import ThemedButton from "@/components/ThemedButton";
-import ThemedText from "@/components/ThemedText";
-import { ShadowProperties, useThemeColors } from "@/constants/Theme";
+import IconButton from "@/components/IconButton";
+import SlideTabs, { SlideTabsType } from "@/components/SlideTabs";
+import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
-import { CATEGORIES } from "@/types/Category";
-import { Recipe } from "@/types/Recipe";
-import { getCategoryLabel } from "@/utils/category-utils";
-import { router } from "expo-router";
+import { RecipeForm } from "@/types/Recipe";
+import { Feather } from "@expo/vector-icons";
+import { router, Stack } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import IngredientsInput from "./IngredientsInput";
-import PhotoPicker from "./PhotoPicker";
+import { StyleSheet, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import FormDetails from "./FormDetails";
+import FormIngredients from "./FormIngredients";
+import FormInstructions from "./FormInstructions";
 
 export default function NewRecipeForm() {
   const colors = useThemeColors();
   const { addRecipe } = useRecipeStore();
 
-  const [form, setForm] = useState<Recipe>({
+  const [form, setForm] = useState<RecipeForm>({
     name: "",
     photoUri: null,
     category: "",
+    grade: 0,
     ingredients: [],
-    servings: 0,
-    tags: [],
+    servings: 2,
+    cookingTime: 10,
+    tagIds: [],
     description: "",
-    createdAt: "",
+    link: "",
   });
-  const [isStepsEnabled, setIsStepsEnabled] = useState(false);
-
-  const handleEditvalue = (key: keyof Recipe, value: any) => {
-    setForm((prevValues) => ({ ...prevValues, [key]: value }));
-  };
+  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const tabs: SlideTabsType[] = [
+    { key: 0, value: "Détails" },
+    { key: 1, value: "Ingrédients" },
+    { key: 2, value: "Instructions" },
+  ];
 
   const handleSubmit = async () => {
     await addRecipe(form);
-    alert("Enregistré !");
     router.back();
   };
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      style={{ paddingTop: 14 }}
-    >
-      <PhotoPicker
-        photoUri={form.photoUri}
-        onChange={(val) => handleEditvalue("photoUri", val)}
+    <View>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <IconButton
+              icon={<Feather name="check" size={24} color={colors.accent} />}
+              backgroundColor={"transparent"}
+              onPress={handleSubmit}
+            />
+          ),
+        }}
       />
-      <Input
-        value={form.name}
-        onChangeText={(val) => handleEditvalue("name", val)}
-        label="Nom de la recette"
+      <SlideTabs
+        tabs={tabs}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
       />
-      <View style={styles.categoriesWrapper}>
-        {CATEGORIES.map((category) => (
-          <TouchableOpacity
-            key={category}
-            onPress={() => handleEditvalue("category", category)}
-            style={[
-              {
-                padding: 10,
-                borderRadius: 20,
-                backgroundColor:
-                  form.category === category
-                    ? colors.primary
-                    : colors.onBackground,
-              },
-              ShadowProperties,
-            ]}
-          >
-            <Text
-              style={{
-                color: form.category === category ? "#fff" : colors.text,
-              }}
-            >
-              {getCategoryLabel(category)}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <IngredientsInput
-        ingredients={form.ingredients}
-        onChange={(val) => handleEditvalue("ingredients", val)}
-      />
-      <View style={[styles.isStepsEnabled, { borderColor: colors.border }]}>
-        <ThemedText text="Ajouter des instructions" />
-        <Switch
-          value={isStepsEnabled}
-          onChange={() => setIsStepsEnabled(!isStepsEnabled)}
-        />
-      </View>
-      {isStepsEnabled && (
-        <Input
-          value={form.description}
-          onChangeText={(val) => handleEditvalue("description", val)}
-          label="Description"
-          multiline
-          numberOfLines={8}
-        />
-      )}
-      <View style={styles.buttonContainer}>
-        <ThemedButton
-          text="Enregistrer"
-          type="primary"
-          onPress={handleSubmit}
-        />
-      </View>
-    </ScrollView>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        extraScrollHeight={30} // décale le scroll quand le clavier sort
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.tabContent}>
+          {selectedTab === 0 && <FormDetails form={form} setForm={setForm} />}
+          {selectedTab === 1 && (
+            <FormIngredients form={form} setForm={setForm} />
+          )}
+          {selectedTab === 2 && (
+            <FormInstructions form={form} setForm={setForm} />
+          )}
+        </View>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  categoriesWrapper: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-    justifyContent: "center",
+  container: {
+    paddingBottom: 40,
   },
-  isStepsEnabled: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10,
+  tabContent: {
+    marginTop: 20,
   },
   buttonContainer: {
     marginTop: 40,

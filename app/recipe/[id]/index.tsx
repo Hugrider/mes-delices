@@ -7,10 +7,10 @@ import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import HeaderRecipeOptions from "./_components/HeaderRecipeOptions";
-import RecipeDetails from "./_components/RecipeDetails";
-import RecipeIngredients from "./_components/RecipeIngredients";
-import RecipeInstructions from "./_components/RecipeInstructions";
+import HeaderRecipeOptions from "../_components/HeaderRecipeOptions";
+import RecipeDetails from "../_components/RecipeDetails";
+import RecipeIngredients from "../_components/RecipeIngredients";
+import RecipeInstructions from "../_components/RecipeInstructions";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
@@ -18,7 +18,6 @@ export default function Recipe() {
   const colors = useThemeColors();
   const [recipe, setRecipe] = useState<RecipeType>();
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [editing, setEditing] = useState(false);
 
   const IMAGE_HEIGHT = 400;
 
@@ -59,7 +58,7 @@ export default function Recipe() {
           headerRight: () => (
             <HeaderRecipeOptions
               onDelete={() => requestDelete(recipe)}
-              onEdit={() => alert("edition de " + recipe.id)}
+              onEdit={() => router.push(`/recipe/${id}/edit`)}
             />
           ),
         }}

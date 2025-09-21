@@ -8,9 +8,9 @@ import { router, Stack } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import FormDetails from "./FormDetails";
-import FormIngredients from "./FormIngredients";
-import FormInstructions from "./FormInstructions";
+import FormDetails from "../../../components/recipeForm/FormDetails";
+import FormIngredients from "../../../components/recipeForm/FormIngredients";
+import FormInstructions from "../../../components/recipeForm/FormInstructions";
 
 export default function NewRecipeForm() {
   const colors = useThemeColors();

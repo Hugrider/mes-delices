@@ -40,6 +40,7 @@ export default function FormDetails({ form, setForm }: Props) {
         keyExtractor={(tag) => tag.id.toString()}
         title="Ajouter des Tags"
         renderLabel={(tag) => tag.name}
+        selectedItems={tags.filter((tag) => form.tagIds.includes(tag.id))}
         onChange={(selected) =>
           handleEditvalue(
             "tagIds",

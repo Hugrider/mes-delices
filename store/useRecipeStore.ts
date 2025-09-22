@@ -6,6 +6,7 @@ type RecipeStore = {
   recipes: Recipe[];
   loadRecipes: () => Promise<void>;
   addRecipe: (recipe: RecipeForm) => Promise<void>;
+  updateRecipe: (id: number, recipe: RecipeForm) => Promise<void>;
   removeRecipe: (id: number) => Promise<void>;
   getRecipeById: (id: number) => Promise<Recipe | null>;
 };
@@ -18,6 +19,10 @@ const useRecipeStore = create<RecipeStore>((set) => ({
   },
   addRecipe: async (recipe: RecipeForm) => {
     await RecipesDb.add(recipe);
+    await useRecipeStore.getState().loadRecipes();
+  },
+  updateRecipe: async (id: number, recipe: RecipeForm) => {
+    await RecipesDb.update(id, recipe);
     await useRecipeStore.getState().loadRecipes();
   },
   removeRecipe: async (id: number) => {

@@ -37,6 +37,44 @@ async function add(recipe: RecipeForm): Promise<number | null> {
   }
 }
 
+async function update(id: number, recipe: RecipeForm): Promise<boolean> {
+  const db = await getDb();
+  try {
+    await db.runAsync(
+      `UPDATE recipes
+       SET name = ?, category = ?, grade = ?, ingredients = ?, servings = ?, cookingTime = ?, description = ?, link = ?, photoUri = ?
+       WHERE id = ?`,
+      recipe.name,
+      recipe.category,
+      recipe.grade,
+      JSON.stringify(recipe.ingredients),
+      recipe.servings,
+      recipe.cookingTime,
+      recipe.description,
+      recipe.link,
+      recipe.photoUri || null,
+      id
+    );
+
+    // 🔹 Supprimer les tags existants
+    await db.runAsync(`DELETE FROM recipe_tags WHERE recipe_id = ?`, id);
+
+    // 🔹 Réinsérer les nouveaux tags
+    for (const tagId of recipe.tagIds) {
+      await db.runAsync(
+        `INSERT INTO recipe_tags (recipe_id, tag_id) VALUES (?, ?)`,
+        id,
+        tagId
+      );
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la recette :", error);
+    return false;
+  }
+}
+
 async function getAll(): Promise<Recipe[]> {
   const db = await getDb();
 
@@ -108,4 +146,4 @@ async function remove(id: number): Promise<void> {
   await db.runAsync("DELETE FROM recipes WHERE id = ?", id);
 }
 
-export const RecipesDb = { add, getAll, getById, remove };
+export const RecipesDb = { add, update, getAll, getById, remove };

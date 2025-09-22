@@ -2,6 +2,7 @@ import { ConfirmPopupHandler } from "@/components/ConfirmPopupHandler";
 import SlideTabs, { SlideTabsType } from "@/components/SlideTabs";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
+import useTagStore from "@/store/useTagStore";
 import type { Recipe as RecipeType } from "@/types/Recipe";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -14,7 +15,8 @@ import RecipeInstructions from "../_components/RecipeInstructions";
 
 export default function Recipe() {
   const { id } = useLocalSearchParams();
-  const { getRecipeById, removeRecipe } = useRecipeStore();
+  const { recipes, getRecipeById, removeRecipe } = useRecipeStore();
+  const { tags } = useTagStore();
   const colors = useThemeColors();
   const [recipe, setRecipe] = useState<RecipeType>();
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -28,7 +30,7 @@ export default function Recipe() {
         setRecipe(result);
       }
     })();
-  }, [id, getRecipeById]);
+  }, [id, getRecipeById, recipes, tags]);
 
   const TABS: SlideTabsType[] = [
     { key: 0, value: "Ingrédients" },

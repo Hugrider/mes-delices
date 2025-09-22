@@ -65,7 +65,7 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-          name="recipe/[id]"
+          name="recipe/[id]/index"
           options={{
             headerTitle: "",
             presentation: "card",
@@ -84,6 +84,15 @@ export default function RootLayout() {
                 onPress={router.back}
               />
             ),
+          }}
+        />
+        <Stack.Screen
+          name="recipe/[id]/edit/index"
+          options={{
+            headerTitle: "Mettre à jour",
+            presentation: "modal",
+            headerShown: true,
+            headerTintColor: colors.accent,
           }}
         />
         <Stack.Screen

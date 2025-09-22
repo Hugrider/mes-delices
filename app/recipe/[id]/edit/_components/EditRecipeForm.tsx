@@ -1,20 +1,24 @@
 import IconButton from "@/components/IconButton";
+import FormDetails from "@/components/recipeForm/FormDetails";
+import FormIngredients from "@/components/recipeForm/FormIngredients";
+import FormInstructions from "@/components/recipeForm/FormInstructions";
 import SlideTabs, { SlideTabsType } from "@/components/SlideTabs";
 import { useThemeColors } from "@/constants/Theme";
 import useRecipeStore from "@/store/useRecipeStore";
-import { RecipeForm } from "@/types/Recipe";
+import { Recipe, RecipeForm } from "@/types/Recipe";
 import { Feather } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import FormDetails from "../../../components/recipeForm/FormDetails";
-import FormIngredients from "../../../components/recipeForm/FormIngredients";
-import FormInstructions from "../../../components/recipeForm/FormInstructions";
 
-export default function NewRecipeForm() {
+type Props = {
+  recipe: Recipe;
+};
+
+export default function EditRecipeForm({ recipe }: Props) {
   const colors = useThemeColors();
-  const { addRecipe } = useRecipeStore();
+  const { updateRecipe } = useRecipeStore();
 
   const [form, setForm] = useState<RecipeForm>({
     name: "",
@@ -35,8 +39,27 @@ export default function NewRecipeForm() {
     { key: 2, value: "Instructions" },
   ];
 
+  useEffect(() => {
+    if (recipe) {
+      console.log(recipe);
+
+      setForm({
+        name: recipe.name ?? "",
+        photoUri: recipe.photoUri ?? null,
+        category: recipe.category ?? "",
+        grade: recipe.grade ?? 0,
+        ingredients: recipe.ingredients ?? [],
+        servings: recipe.servings ?? 2,
+        cookingTime: recipe.cookingTime ?? 10,
+        tagIds: recipe.tags.map((tag) => tag.id) ?? [],
+        description: recipe.description ?? "",
+        link: recipe.link ?? "",
+      });
+    }
+  }, [recipe]);
+
   const handleSubmit = async () => {
-    await addRecipe(form);
+    await updateRecipe(recipe.id, form);
     router.back();
   };
 

@@ -31,11 +31,13 @@ export default forwardRef<BottomSheet, Props>(function Filters(
     let filtered = items;
 
     // Filtre par tags si au moins un tag sélectionné
-    filtered = filtered.filter((item) =>
-      item.tags.some((tag) =>
-        selectedTags.map((tag) => tag.id).includes(tag.id)
-      )
-    );
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter((item) =>
+        item.tags.some((tag) =>
+          selectedTags.map((tag) => tag.id).includes(tag.id)
+        )
+      );
+    }
 
     // Filtre par catégories si au moins une catégorie sélectionnée
     if (selectedCategories.length > 0) {

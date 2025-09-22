@@ -41,7 +41,6 @@ export default function Dropdown<T>({
       ? selectedItems.filter((s) => keyExtractor(s) !== keyExtractor(item))
       : [...selectedItems, item];
 
-    // setSelectedItems(updated);
     onChange(updated);
   }
 
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   scrollView: {
-    maxHeight: 150,
+    maxHeight: 210,
     borderWidth: 1,
     borderRadius: 10,
     marginTop: 5,

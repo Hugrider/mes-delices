@@ -44,9 +44,10 @@ export default function FormInstructions({ form, setForm }: Props) {
         <Input
           value={form.description}
           onChangeText={(val) => handleEditvalue("description", val)}
-          label="Description"
+          label="Étapes à suivre"
           multiline
           numberOfLines={8}
+          wrapperStyle={styles.steps}
         />
       )}
     </View>
@@ -62,5 +63,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+  },
+  steps: {
+    height: 300,
+    lineHeight: 90,
   },
 });

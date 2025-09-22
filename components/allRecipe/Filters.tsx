@@ -1,6 +1,9 @@
 import { useThemeColors } from "@/constants/Theme";
 import useTagStore from "@/store/useTagStore";
+import { CATEGORIES } from "@/types/Category";
 import { Recipe } from "@/types/Recipe";
+import { Tag } from "@/types/Tag";
+import { getCategoryLabel } from "@/utils/category-utils";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import React, { forwardRef, useState } from "react";
@@ -12,28 +15,42 @@ import ThemedText from "../ThemedText";
 
 type Props = {
   items: Recipe[];
-  filteredItems: Recipe[];
   setFilteredItems: (recipes: Recipe[]) => void;
 };
 export default forwardRef<BottomSheet, Props>(function Filters(
-  { items, filteredItems, setFilteredItems }: Props,
+  { items, setFilteredItems }: Props,
   ref
 ) {
   const colors = useThemeColors();
   const { tags } = useTagStore();
 
-  const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   function handleApplyFilters() {
-    if (!selectedTagIds.length) {
-      setFilteredItems(items);
-      return;
+    let filtered = items;
+
+    // Filtre par tags si au moins un tag sélectionné
+    filtered = filtered.filter((item) =>
+      item.tags.some((tag) =>
+        selectedTags.map((tag) => tag.id).includes(tag.id)
+      )
+    );
+
+    // Filtre par catégories si au moins une catégorie sélectionnée
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter((item) =>
+        selectedCategories.includes(item.category)
+      );
     }
 
-    const newFilteredItems = items.filter((item) =>
-      item.tags.some((tag) => selectedTagIds.includes(tag.id))
-    );
-    setFilteredItems(newFilteredItems);
+    setFilteredItems(filtered);
+  }
+
+  function handleClear() {
+    setSelectedCategories([]);
+    setSelectedTags([]);
+    setFilteredItems(items);
   }
 
   return (
@@ -44,18 +61,30 @@ export default forwardRef<BottomSheet, Props>(function Filters(
           style={[styles.title, { color: colors.accent }]}
         />
         <Dropdown
-          items={tags}
-          keyExtractor={(tag) => tag.id.toString()}
-          renderLabel={(tag) => tag.name}
-          title="Filtrer par Tags"
-          onChange={(selected) =>
-            setSelectedTagIds(selected.map((tag) => tag.id))
-          }
+          items={CATEGORIES.map((cat) => cat)}
+          keyExtractor={(cat) => cat}
+          renderLabel={(cat) => getCategoryLabel(cat)}
+          title="Filtrer par Catégories"
+          selectedItems={selectedCategories}
+          onChange={(selected) => setSelectedCategories(selected)}
           noItem={() => {
             router.back();
             router.push("/tags");
           }}
         />
+        <Dropdown
+          items={tags}
+          keyExtractor={(tag) => tag.id.toString()}
+          renderLabel={(tag) => tag.name}
+          title="Filtrer par Tags"
+          selectedItems={selectedTags}
+          onChange={(selected) => setSelectedTags(selected)}
+          noItem={() => {
+            router.back();
+            router.push("/tags");
+          }}
+        />
+        <ThemedButton text="Réinitialiser" onPress={handleClear} />
         <ThemedButton
           text="Appliquer"
           type="primary"

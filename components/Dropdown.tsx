@@ -16,7 +16,8 @@ type DropdownProps<T> = {
   keyExtractor: (item: T) => string;
   title: string;
   renderLabel: (item: T) => string;
-  onChange?: (selected: T[]) => void;
+  selectedItems: T[];
+  onChange: (selected: T[]) => void;
   noItem: () => void;
 };
 
@@ -25,29 +26,23 @@ export default function Dropdown<T>({
   keyExtractor,
   title,
   renderLabel,
+  selectedItems,
   onChange,
   noItem,
 }: DropdownProps<T>) {
   const colors = useThemeColors();
-  const [selectedItems, setSelectedItems] = useState<T[]>([]);
   const [isExpended, setIsExpended] = useState(false);
 
   function toggleSelect(item: T) {
     const exists = selectedItems.some(
       (s) => keyExtractor(s) === keyExtractor(item)
     );
+    const updated = exists
+      ? selectedItems.filter((s) => keyExtractor(s) !== keyExtractor(item))
+      : [...selectedItems, item];
 
-    let updated: T[];
-    if (exists) {
-      updated = selectedItems.filter(
-        (s) => keyExtractor(s) !== keyExtractor(item)
-      );
-    } else {
-      updated = [...selectedItems, item];
-    }
-
-    setSelectedItems(updated);
-    onChange?.(updated);
+    // setSelectedItems(updated);
+    onChange(updated);
   }
 
   function isSelected(item: T) {
